@@ -41,4 +41,15 @@ def start():
     print("")
     printConfig("manaPos", manaPos)
 
+    configObject = util.AnomObject(
+        battlePos = battlePos,
+        foodPos = foodPos,
+        manaPos = manaPos
+    )
+    util.writeConfigJson(configObject)
+    savedConfig = util.loadConfigJson()
+
+    print ("saved config: " + str(savedConfig))
+    print ("foodPos x config: " + str(savedConfig.foodPos.x))
+
 start()
