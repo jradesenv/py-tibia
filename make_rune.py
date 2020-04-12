@@ -2,14 +2,14 @@ import pyautogui
 import time
 from util import log, AnomObject, rgbToHex, loadConfigFromJson
 
-pyautogui.PAUSE = 1
-pyautogui.FAILSAFE = True
+pyautogui.PAUSE = 0.3
+pyautogui.FAILSAFE = False
 
 CONFIG = loadConfigFromJson()
 
 #### START EXTRA CONFIG
 extraConfig = AnomObject(
-    logoutWhenNotAlone = False, 
+    logoutWhenNotAlone = True, 
     magicSpell = 'exevo pan',
     faceDirectionKey = 'd', #a,s,w,d
     loopsToHarlemShake = 100,
