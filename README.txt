@@ -1,3 +1,5 @@
+### Tested in Python 3.6.2
+
 ### INSTALL DEPENDENCIES:
 pip install -r requirements.txt
 
