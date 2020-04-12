@@ -2,6 +2,33 @@ import pyautogui
 import time
 from datetime import datetime
 import json
+import jsonpickle
+
+CONFIG_FILE_NAME = './config.json'
+
+class Position(object):
+    def __init__(self, x: int, y: int, color: str):
+        self.x  = x
+        self.y = y
+        self.color = color
+
+    def __str__(self):
+        return str(self.__dict__)
+
+    def __eq__(self, other):
+        return self is not None and other is not None and self.__dict__ == other.__dict__
+
+class Config(object):
+    def __init__(self, battlePos: Position, foodPos: Position, manaPos: Position):
+        self.battlePos = battlePos
+        self.foodPos = foodPos
+        self.manaPos = manaPos
+
+    def __str__(self):
+        return str(self.__dict__)
+
+    def __eq__(self, other):
+        return self is not None and other is not None and self.__dict__ == other.__dict__
 
 class AnomObject(object):
     def __init__(self, **kwargs):
@@ -12,10 +39,6 @@ class AnomObject(object):
 
     def __eq__(self, other):
         return self is not None and other is not None and self.__dict__ == other.__dict__
-
-    @classmethod
-    def from_json(cls, data: dict):
-        return cls(**data)
 
 def rgbToHex(rgb):
     return str('#%02x%02x%02x' % rgb)
@@ -28,28 +51,23 @@ def log(msg):
     print(dateTimeStr() + " " + msg)
 
 def waitGetMouseStopped():
-    oldPosition = AnomObject(x=0, y=0, color="")
+    oldPosition = Position(x=0, y=0, color="")
     newPosition = None
     while newPosition is None or oldPosition != newPosition:
         print("continue parado...")
         oldPosition = newPosition
         pos = pyautogui.position()
-        newPosition = AnomObject(x=pos.x, y=pos.y, color=rgbToHex(pyautogui.pixel(pos.x,pos.y)))
+        newPosition = Position(x=pos.x, y=pos.y, color=rgbToHex(pyautogui.pixel(pos.x,pos.y)))
         time.sleep(3)
 
     print("posição identificada!")
     return newPosition
 
 def writeConfigJson(config):
-    with open('./config.json', 'w', encoding='utf-8') as f:
-        json.dump(
-            config.__dict__, 
-            f,
-            default = lambda o: o.__dict__, 
-            indent=4
-        )
+    jsonStr = jsonpickle.encode(config)
+    with open(CONFIG_FILE_NAME, 'w') as f:
+        f.write(jsonStr)
 
 def loadConfigJson():
-    with open('./config.json', 'r') as f:
-        json_data = f.read()
-        return AnomObject(**json.loads(json_data))
+    jsonStr = open(CONFIG_FILE_NAME).read()
+    return jsonpickle.decode(jsonStr)

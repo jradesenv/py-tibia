@@ -1,17 +1,1 @@
-{
-    "battlePos": {
-        "x": 1112,
-        "y": 876,
-        "color": "#262829"
-    },
-    "foodPos": {
-        "x": 1112,
-        "y": 876,
-        "color": "#262829"
-    },
-    "manaPos": {
-        "x": 1316,
-        "y": 809,
-        "color": "#28292a"
-    }
-}
+{"battlePos": {"color": "#ffffff", "py/object": "util.Position", "x": 364, "y": 15}, "foodPos": {"color": "#333333", "py/object": "util.Position", "x": 18, "y": 320}, "manaPos": {"color": "#333333", "py/object": "util.Position", "x": 18, "y": 320}, "py/object": "util.Config"}

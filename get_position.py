@@ -32,16 +32,7 @@ def start():
     print("POSICAO E COR DE ONDE TEM MANA PRA FAZER A RUNA: " + str(manaPos))
     time.sleep(0.5)
 
-    print("===================")
-    print("COPIE A CONFIG ABAIXO E COLE ENTRE O START CONFIG E END CONFIG")
-    print("===================")
-    printConfig("battlePos", battlePos)
-    print("")
-    printConfig("foodPos", foodPos)
-    print("")
-    printConfig("manaPos", manaPos)
-
-    configObject = util.AnomObject(
+    configObject = util.Config(
         battlePos = battlePos,
         foodPos = foodPos,
         manaPos = manaPos
@@ -50,6 +41,5 @@ def start():
     savedConfig = util.loadConfigJson()
 
     print ("saved config: " + str(savedConfig))
-    print ("foodPos x config: " + str(savedConfig.foodPos.x))
 
 start()
