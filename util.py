@@ -68,6 +68,6 @@ def writeConfigJson(config):
     with open(CONFIG_FILE_NAME, 'w') as f:
         f.write(jsonStr)
 
-def loadConfigJson():
+def loadConfigFromJson():
     jsonStr = open(CONFIG_FILE_NAME).read()
     return jsonpickle.decode(jsonStr)

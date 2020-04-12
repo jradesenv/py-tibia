@@ -1,30 +1,17 @@
 import pyautogui
 import time
-from util import log, AnomObject, rgbToHex
+from util import log, AnomObject, rgbToHex, loadConfigFromJson
 
 pyautogui.PAUSE = 1
 pyautogui.FAILSAFE = True
 
-##### START CONFIG
-
-battlePos = AnomObject(
-x= 1744, y= 122, color='#151617'
-)
-
-foodPos = AnomObject(
-x= 1436, y= 486, color='#5c4538'
-)
-
-manaPos = AnomObject(
-x= 1490, y= 94, color='#3535c8'
-)
-##### END CONFIG
+CONFIG = loadConfigFromJson()
 
 #### START EXTRA CONFIG
 extraConfig = AnomObject(
     logoutWhenNotAlone = False, 
-    magicSpell = 'adura vita',
-    faceDirectionKey = 's', #a,s,w,d
+    magicSpell = 'exevo pan',
+    faceDirectionKey = 'd', #a,s,w,d
     loopsToHarlemShake = 100,
     _currentLoopsWithoutHarlemShake = 0,
     loopsToEatFood = 50,
@@ -33,13 +20,13 @@ extraConfig = AnomObject(
 #### END EXTRA CONFIG
 
 def isAlone():
-    battleColor = rgbToHex(pyautogui.pixel(battlePos.x,battlePos.y))
-    alone = battleColor == battlePos.color
+    battleColor = rgbToHex(pyautogui.pixel(CONFIG.battlePos.x,CONFIG.battlePos.y))
+    alone = battleColor == CONFIG.battlePos.color
     return alone
 
 def hasMana():
-    manaColor = rgbToHex(pyautogui.pixel(manaPos.x,manaPos.y))
-    mana = manaColor == manaPos.color
+    manaColor = rgbToHex(pyautogui.pixel(CONFIG.manaPos.x,CONFIG.manaPos.y))
+    mana = manaColor == CONFIG.manaPos.color
     return mana
 
 def doLogout():
@@ -58,7 +45,7 @@ def doHarlemShake():
     pyautogui.keyUp('ctrl')
 
 def eatFood():
-    pyautogui.rightClick(foodPos.x, foodPos.y)
+    pyautogui.rightClick(CONFIG.foodPos.x, CONFIG.foodPos.y)
 
 def checkIsAlone():
     if not isAlone():
@@ -86,6 +73,7 @@ def checkEatFood():
         extraConfig._currentLoopsWithoutEatFood = 0
 
 def start():
+    log("config carregada: " + str(CONFIG))
     time.sleep(3)
     log("jogando! extraConfig: " + str(extraConfig))
     

@@ -38,7 +38,7 @@ def start():
         manaPos = manaPos
     )
     util.writeConfigJson(configObject)
-    savedConfig = util.loadConfigJson()
+    savedConfig = util.loadConfigFromJson()
 
     print ("saved config: " + str(savedConfig))
 
