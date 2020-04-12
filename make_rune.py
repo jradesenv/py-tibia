@@ -10,12 +10,18 @@ CONFIG = loadConfigFromJson()
 #### START EXTRA CONFIG
 extraConfig = AnomObject(
     logoutWhenNotAlone = True, 
-    magicSpell = 'exevo pan',
+    runeMagicSpell = 'adura vita',
+    mlTrainingSpell = 'exevo pan',
     faceDirectionKey = 'd', #a,s,w,d
     loopsToHarlemShake = 100,
     _currentLoopsWithoutHarlemShake = 0,
     loopsToEatFood = 50,
-    _currentLoopsWithoutEatFood = 0
+    _currentLoopsWithoutEatFood = 0,
+    maxRunes = 300,
+    _currentRuneCount = 0,
+    makeFood = True,
+    runesToExevoPan = 3,
+    _currentRuneToExevoPanCount = 0,
 )
 #### END EXTRA CONFIG
 
@@ -33,9 +39,18 @@ def doLogout():
     pyautogui.hotkey('ctrl', 'l')
 
 def makeRune():
-    pyautogui.press("enter")
-    pyautogui.typewrite(extraConfig.magicSpell)
-    pyautogui.press("enter")
+    if extraConfig._currentRuneCount < extraConfig.maxRunes:
+        extraConfig._currentRuneCount += 1
+        log("fazendo runa")
+        pyautogui.press("enter")
+        pyautogui.typewrite(extraConfig.runeMagicSpell)
+        pyautogui.press("enter")
+    else:
+        log("treinando ml")
+        pyautogui.press("enter")
+        pyautogui.typewrite(extraConfig.mlTrainingSpell)
+        pyautogui.press("enter")
+
 
 def doHarlemShake():
     pyautogui.keyDown('ctrl')
@@ -55,10 +70,26 @@ def checkIsAlone():
             doLogout()
             exit()
 
+def shouldDoExevoPan():
+    if extraConfig.makeFood:
+        extraConfig._currentRuneToExevoPanCount += 1
+        return extraConfig._currentRuneToExevoPanCount >= extraConfig.runesToExevoPan
+    else:
+        return False
+
+def doExevoPan():
+    log("fazendo food")
+    pyautogui.press("enter")
+    pyautogui.typewrite("exevo pan")
+    pyautogui.press("enter")
+    extraConfig._currentRuneToExevoPanCount = 0
+
 def checkMakeRune():
     if hasMana():
-        log("fazendo runa")
-        makeRune()
+        if shouldDoExevoPan():
+            doExevoPan()
+        else:
+            makeRune()
 
 def checkHarlemShake():
     extraConfig._currentLoopsWithoutHarlemShake += 1
