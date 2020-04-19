@@ -1,11 +1,11 @@
 import pyautogui
 import time
-from util import log, AnomObject, rgbToHex, loadConfigFromJson
+from util import log, AnomObject, rgbToHex, loadConfigFromJson, MAKE_RUNE_CONFIG_PATH
 
-pyautogui.PAUSE = 0.3
+pyautogui.PAUSE = 0.1
 pyautogui.FAILSAFE = False
 
-CONFIG = loadConfigFromJson()
+CONFIG = loadConfigFromJson(MAKE_RUNE_CONFIG_PATH)
 
 #### START EXTRA CONFIG
 extraConfig = AnomObject(
@@ -17,10 +17,10 @@ extraConfig = AnomObject(
     _currentLoopsWithoutHarlemShake = 0,
     loopsToEatFood = 50,
     _currentLoopsWithoutEatFood = 0,
-    maxRunes = 300,
+    maxRunes = 320,
     _currentRuneCount = 0,
     makeFood = True,
-    runesToExevoPan = 3,
+    runesToExevoPan = 4,
     _currentRuneToExevoPanCount = 0,
 )
 #### END EXTRA CONFIG
@@ -113,6 +113,6 @@ def start():
         checkMakeRune()
         checkHarlemShake()
         checkEatFood()
-        time.sleep(0.1)
+        time.sleep(0.05)
 
 start()

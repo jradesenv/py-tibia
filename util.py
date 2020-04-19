@@ -4,7 +4,19 @@ from datetime import datetime
 import json
 import jsonpickle
 
-CONFIG_FILE_NAME = './config.json'
+MAKE_RUNE_CONFIG_PATH = './config.json'
+MULTI_CLIENT_1_CONFIG_PATH = './client1_config.json'
+MULTI_CLIENT_2_CONFIG_PATH = './client2_config.json'
+
+class AnomObject(object):
+    def __init__(self, **kwargs):
+         self.__dict__.update(kwargs)
+
+    def __str__(self):
+        return str(self.__dict__)
+
+    def __eq__(self, other):
+        return self is not None and other is not None and self.__dict__ == other.__dict__
 
 class Position(object):
     def __init__(self, x: int, y: int, color: str):
@@ -19,7 +31,8 @@ class Position(object):
         return self is not None and other is not None and self.__dict__ == other.__dict__
 
 class Config(object):
-    def __init__(self, battlePos: Position, foodPos: Position, manaPos: Position):
+    def __init__(self, battlePos: Position, foodPos: Position, manaPos: Position, windowPos: Position):
+        self.windowPos = windowPos
         self.battlePos = battlePos
         self.foodPos = foodPos
         self.manaPos = manaPos
@@ -30,9 +43,10 @@ class Config(object):
     def __eq__(self, other):
         return self is not None and other is not None and self.__dict__ == other.__dict__
 
-class AnomObject(object):
-    def __init__(self, **kwargs):
-         self.__dict__.update(kwargs)
+class CompleteConfig(object):
+    def __init__(self, config: Config, extraConfig: AnomObject):
+        self.config = config
+        self.extraConfig = extraConfig
 
     def __str__(self):
         return str(self.__dict__)
@@ -63,11 +77,11 @@ def waitGetMouseStopped():
     print("posição identificada!")
     return newPosition
 
-def writeConfigJson(config):
+def writeConfigJson(config, path):
     jsonStr = jsonpickle.encode(config)
-    with open(CONFIG_FILE_NAME, 'w') as f:
+    with open(path, 'w') as f:
         f.write(jsonStr)
 
-def loadConfigFromJson():
-    jsonStr = open(CONFIG_FILE_NAME).read()
+def loadConfigFromJson(path):
+    jsonStr = open(path).read()
     return jsonpickle.decode(jsonStr)

@@ -35,10 +35,11 @@ def start():
     configObject = util.Config(
         battlePos = battlePos,
         foodPos = foodPos,
-        manaPos = manaPos
+        manaPos = manaPos,
+        windowPos = None
     )
-    util.writeConfigJson(configObject)
-    savedConfig = util.loadConfigFromJson()
+    util.writeConfigJson(configObject, util.MAKE_RUNE_CONFIG_PATH)
+    savedConfig = util.loadConfigFromJson(util.MAKE_RUNE_CONFIG_PATH)
 
     print ("saved config: " + str(savedConfig))
 
